@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Validation</title>
+<style>
+    .error {
+        color: red;
+    }
+</style>
+</head>
+<body>
+    <form id="myForm" onsubmit="return validateForm()">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <span id="nameError" class="error"></span><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        function validateForm() {
+            var name = document.getElementById("name").value;
+            var nameError = document.getElementById("nameError");
+            nameError.innerHTML = "";
+
+            // Rule 1: Cannot be empty
+            if (name.trim() === "") {
+                nameError.innerHTML = "Name cannot be empty";
+                return false;
+            }
+
+            // Rule 2: Contains at least two words
+            var words = name.trim().split(/\s+/);
+            if (words.length < 2) {
+                nameError.innerHTML = "Name must contain at least two words";
+                return false;
+            }
+
+            // Rule 3: Can contain a-z or A-Z or dot(.) or dash(-)
+            var validCharacters = /^[a-zA-Z.-]+$/;
+            if (!validCharacters.test(name)) {
+                nameError.innerHTML = "Name can only contain letters, dots, or dashes";
+                return false;
+            }
+
+            // Rule 4: Must start with a letter
+            var firstChar = name.trim().charAt(0);
+            if (!firstChar.match(/[a-zA-Z]/)) {
+                nameError.innerHTML = "Name must start with a letter";
+                return false;
+            }
+
+            // Form is valid
+            return true;
+        }
+    </script>
+</body>
+</html>
